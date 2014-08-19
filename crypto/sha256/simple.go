@@ -24,6 +24,6 @@ func simple1(name string) {
 	mdStr := hex.EncodeToString(md)
 	fmt.Println(mdStr)
 
-	id := new(big.Int).SetBytes(md).String()
-	fmt.Println(id)
+	id := new(big.Int).SetBytes(md)
+	fmt.Println(id.String(), id.BitLen())
 }
