@@ -12,4 +12,15 @@ func main() {
 	flag.Parse()
 
 	fmt.Println(flag.Args())
+	t()
+}
+
+func t() {
+	flag.Parse()
+	args := flag.Args()
+	if len(args) < 1 || args[0] != "init" {
+		fmt.Println("没有运行")
+		return
+	}
+	fmt.Println("运行了")
 }
