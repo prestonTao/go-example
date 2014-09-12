@@ -7,7 +7,19 @@ import (
 )
 
 func main() {
+	randn()
+}
 
+//从范围[0-65535)随机选择一个数字，包括0，但不包括65535
+func randn() {
+	timens := int64(time.Now().Nanosecond())
+	rand.Seed(timens)
+	r := rand.Intn(65535)
+	fmt.Println(r)
+
+}
+
+func example() {
 	timens := int64(time.Now().Nanosecond())
 	rand.Seed(timens)
 
