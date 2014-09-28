@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 )
 
+//得到文件夹下的所有子文件夹及文件的全路径
 func main() {
 	filepath.Walk("d://test", fileDir)
 }

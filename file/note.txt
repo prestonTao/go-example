@@ -1,0 +1,23 @@
+
+
+//得到当前文件的目录
+os.Getwd()
+
+//把一个文件夹里的所有子文件夹及文件移动到另一个文件夹
+frompath := "D:/test/cp/Dangle/res/anim"
+topath := "D:/test\\res/anim"
+syscall.MoveFile(&syscall.StringToUTF16(frompath)[0], &syscall.StringToUTF16(topath)[0])
+
+//获得文件属性
+file, _ := os.Open("d:\\test")
+fileInfo := file.Stat()
+f, _ := os.Stat("d:/test.txt")
+//获取文件大小
+fileInfo.Size()
+//判断文件是否是个文件夹
+fileInfo.IsDir()
+
+//创建文件夹，如果路径中的上一级目录不存在，会自动创建
+os.MkdirAll(path, 0777)
+
+
