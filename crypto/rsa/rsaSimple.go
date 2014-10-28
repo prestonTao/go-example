@@ -4,11 +4,15 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha1"
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
+	"os"
 )
 
 func main() {
-	createPrivateKey()
+	// createPrivateKey()
+	example2()
 }
 
 func createPrivateKey() {
@@ -44,4 +48,46 @@ func createPrivateKey() {
 		fmt.Println("解密消息错误：", err.Error())
 	}
 	fmt.Println("解密后的消息：", string(out))
+}
+
+//用Go生成openssl那样的密钥保存在文件中
+func example2() error {
+	// 生成私钥文件
+	privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
+	if err != nil {
+		return err
+	}
+	derStream := x509.MarshalPKCS1PrivateKey(privateKey)
+	block := &pem.Block{
+		Type:  "RSA PRIVATE KEY",
+		Bytes: derStream,
+	}
+	file, err := os.Create("private.pem")
+	if err != nil {
+		return err
+	}
+	err = pem.Encode(file, block)
+	if err != nil {
+		return err
+	}
+	// 生成公钥文件
+	publicKey := &privateKey.PublicKey
+	derPkix, err := x509.MarshalPKIXPublicKey(publicKey)
+	if err != nil {
+		return err
+	}
+	block = &pem.Block{
+		Type:  "PUBLIC KEY",
+		Bytes: derPkix,
+	}
+	file, err = os.Create("public.pem")
+	if err != nil {
+		return err
+	}
+	err = pem.Encode(file, block)
+	if err != nil {
+		return err
+	}
+	return nil
+
 }
