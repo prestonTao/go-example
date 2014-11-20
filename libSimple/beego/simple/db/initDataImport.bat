@@ -1,0 +1,1 @@
+mongoimport -d oss -c roleLogin --type csv --file csv/roleLogin.csv --upsert -f TriggerTime,ManServerId,GameServerId,AccountsId,AccountsName,TerraceId,SceneId,RoleId,RoleName,RoleLevel,RoleGender,RoleOccupation,RoleGold,AccountsCowry,OnlineTimeCount,TriggerType,LoginIP,LoginCountry,Block,RoleCharacteristic,StorageTime
