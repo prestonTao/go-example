@@ -8,10 +8,13 @@ import (
 func main() {
 	//eTest1()
 	//eTest2()
-	eTest3()
-	//睡眠3秒钟
-	time.Sleep(time.Second * 3)
+	// eTest3()
+	// //睡眠3秒钟
+	// time.Sleep(time.Second * 3)
+
+	eTest5()
 }
+
 func eTest1() {
 	fmt.Println(time.Now().String())
 	var customMap map[string]string = map[string]string{"tao": "nihao"}
@@ -34,4 +37,18 @@ func eTest3() {
 	fmt.Println("the 2")
 	t2 := time.Now()
 	fmt.Println(t2.Sub(t1).Nanoseconds()) //计算出微毫秒，十亿份之一秒
+}
+
+//
+func eTest4() {
+	t := time.Now()
+	fmt.Println(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local))
+	fmt.Println(t.Sub(time.Date(0, 0, 1, 0, 0, 0, 0, time.Local)))
+}
+
+//计算昨天的这个时候
+func eTest5() {
+	t := time.Now()
+	yesterday := time.Unix(t.Unix()-(60*60*24), int64(t.Nanosecond()))
+	fmt.Println(yesterday)
 }
