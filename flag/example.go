@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+//启动程序的时候，带参数
 //go run example.go init db
 func main() {
 	// ok := flag.String("init", "db", "create table in db")

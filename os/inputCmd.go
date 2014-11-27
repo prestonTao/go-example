@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+//监听命令行输入，并把输入内容打印出来
 func main() {
 	running := true
 	reader := bufio.NewReader(os.Stdin)
