@@ -243,6 +243,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"net"
 )
@@ -277,5 +278,9 @@ func handler(buf []byte) {
 	fmt.Println("客户端第一次请求内容：\n", buf, "\n")
 	fmt.Println("记录号(22为“握手”记录)：", buf[0])
 	fmt.Println("协议主版本号：", buf[1], "协议次版本号：", buf[2], "完整版本号：", buf[1], ".", buf[2])
+	fmt.Println("内容长度：", binary.BigEndian.Uint16(buf[3:5]))
+	fmt.Println("==============================\n下面是协议报文\n")
+	fmt.Println("协议类型：", buf[5])
+	fmt.Println("协议内容长度：", binary.BigEndian.Uint32([]byte{0x00, buf[6], buf[7], buf[8]}))
 
 }
