@@ -2,12 +2,31 @@ package main
 
 import (
 	"flag"
+	"io"
+	"io/ioutil"
 	"log"
+	"net/http"
+	"os"
+	"path/filepath"
 )
 
-var port = "80"
+var (
+	port       = "80"
+	UPLOAD_DIR = "upload"
+)
 
 func init() {
+	nowpath, _ := os.Getwd()
+	//文件夹全路径
+	UPLOAD_DIR = filepath.Join(nowpath, UPLOAD_DIR)
+	//判断文件夹是否存在
+	if _, err := os.Stat(UPLOAD_DIR); err != nil {
+		if os.IsNotExist(err) {
+			//不存在则创建一个
+			os.MkdirAll(UPLOAD_DIR, 0777)
+		}
+	}
+
 	flag.Parse()
 	args := flag.Args()
 	if len(args) == 0 {
@@ -40,7 +59,7 @@ func uploadPage(w http.ResponseWriter, r *http.Request) {
 			"</head>"+
 			"<body>"+
 			"<form id=\"form1\"  enctype=\"multipart/form-data\" method=\"post\" action=\"/upload\">"+
-			"Choose an image to upload:"+
+			"选择一个文件:"+
 			"<input name=\"image\" type=\"file\"  /><br/>"+
 			"<input type=\"submit\" name=\"button\" id=\"button\" value=\"提交\" />"+
 			"</form>"+
@@ -57,7 +76,7 @@ func uploadPage(w http.ResponseWriter, r *http.Request) {
 		fileName := h.Filename
 		defer f.Close()
 
-		t, err := os.Create(UPLOAD_DIR + "/" + fileName)
+		t, err := os.Create(filepath.Join(UPLOAD_DIR, fileName))
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -69,14 +88,14 @@ func uploadPage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		http.Redirect(w, r, "/view?id="+fileName, http.StatusFound)
+		http.Redirect(w, r, "/", http.StatusFound)
 	}
 
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	imageId := r.FormValue("id")
-	imagePath := UPLOAD_DIR + "/" + imageId
+	imagePath := filepath.Join(UPLOAD_DIR, imageId)
 	if exists := isExists(imagePath); !exists {
 		http.NotFound(w, r)
 		return
@@ -113,6 +132,7 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 		"<title>无标题文档</title>"+
 		"</head>"+
 		"<body>"+
+		"<a href='/upload'>上传文件</a></br>"+
 		"<ol>"+listHtml+"</ol>"+
 		"</body>"+
 		"</html>")

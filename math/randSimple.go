@@ -7,6 +7,15 @@ import (
 )
 
 func main() {
+
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < 10; i++ {
+		fmt.Println(r.Intn(100))
+	}
+
+	// x := rand.NewSource(9)
+
+	// fmt.Println(rand.NewSource(9))
 	randn()
 }
 
