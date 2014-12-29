@@ -1,0 +1,4 @@
+{
+	"apns_cert":"conf/apns_cert.pem",
+	"apns_key":"conf/apns_key_nosecure.pem"
+}
