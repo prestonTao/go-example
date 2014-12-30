@@ -246,6 +246,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net"
+	"time"
 )
 
 func main() {
@@ -281,6 +282,14 @@ func handler(buf []byte) {
 	fmt.Println("内容长度：", binary.BigEndian.Uint16(buf[3:5]))
 	fmt.Println("==============================\n下面是协议报文\n")
 	fmt.Println("协议类型：", buf[5])
-	fmt.Println("协议内容长度：", binary.BigEndian.Uint32([]byte{0x00, buf[6], buf[7], buf[8]}))
-
+	contentLen := binary.BigEndian.Uint32([]byte{0x00, buf[6], buf[7], buf[8]})
+	fmt.Println("协议内容长度：", contentLen)
+	fmt.Println("SSL协议版本号：", buf[9], ".", buf[10])
+	//客户端产生的一个用于生成主密钥(master key)的32字节的随机数
+	m := binary.BigEndian.Uint64([]byte{0x00, 0x00, 0x00, 0x00, buf[11], buf[12], buf[13], buf[14]})
+	fmt.Println("时间：", time.Unix(int64(m), 0))
+	fmt.Println("客户端产生的随机数：", buf[15:43])
+	fmt.Println("sessionId: ", buf[43:75])
+	fmt.Println("sessionId: ", buf[43:75])
+	fmt.Println("\n===================================\n")
 }
