@@ -3,8 +3,13 @@
 	TLSv1.2协议
 	（注：目前主流的SSL都没有对压缩的支持）
 
+    http://www.cnblogs.com/LittleHann/p/3733469.html
 	http://blog.jobbole.com/48369/
-	http://www.cnblogs.com/LittleHann/p/3733469.html
+    Cipher Suite 查询
+    https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-4
+    http://www.ietf.org/rfc/rfc2818.txt
+    http://www-01.ibm.com/support/knowledgecenter/SSGMGV_3.1.0/com.ibm.cics.ts31.doc/dfht5/topics/dfht5nv.htm?cp=SSGMGV_3.1.0%2F5-10-2-2-3
+
 	http://blog.csdn.net/sealyao/article/details/5901510
 	http://blog.chinaunix.net/uid-20564848-id-74650.html
 	http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html
@@ -250,7 +255,8 @@ import (
 )
 
 func main() {
-	Start()
+	// Start()
+	handler(hello)
 }
 
 func Start() {
@@ -275,6 +281,14 @@ func Start() {
 
 }
 
+var hello = []byte{22, 3, 1, 0, 186, 1, 0, 0, 182, 3, 3, 154, 202, 85, 242, 246, 106, 95, 84, 50, 80, 132, 129, 56, 78, 20,
+	0, 134, 103, 243, 198, 104, 6, 109, 210, 205, 100, 216, 229, 245, 171, 253, 206, 198, 0, 0, 40, 204, 2,
+	0, 204, 19, 192, 43, 192, 47, 0, 158, 192, 10, 192, 9, 192, 19, 192, 20, 192, 7, 192, 17, 0, 51, 0, 50, 0,
+	57, 0, 156, 0, 47, 0, 53, 0, 10, 0, 5, 0, 4, 1, 0, 0, 101, 255, 1, 0, 1, 0, 0, 10, 0, 8, 0, 6, 0, 23, 0, 24, 0,
+	25, 0, 11, 0, 2, 1, 0, 0, 35, 0, 0, 51, 116, 0, 0, 0, 16, 0, 27, 0, 25, 6, 115, 112, 100, 121, 47, 51, 8, 115,
+	112, 100, 121, 47, 51, 46, 49, 8, 104, 116, 116, 112, 47, 49, 46, 49, 117, 80, 0, 0, 0, 5, 0, 5, 1, 0, 0,
+	0, 0, 0, 18, 0, 0, 0, 13, 0, 18, 0, 16, 4, 1, 5, 1, 2, 1, 4, 3, 5, 3, 2, 3, 4, 2, 2, 2}
+
 func handler(buf []byte) {
 	fmt.Println("客户端第一次请求内容：\n", buf, "\n")
 	fmt.Println("记录号(22为“握手”记录)：", buf[0])
@@ -289,7 +303,20 @@ func handler(buf []byte) {
 	m := binary.BigEndian.Uint64([]byte{0x00, 0x00, 0x00, 0x00, buf[11], buf[12], buf[13], buf[14]})
 	fmt.Println("时间：", time.Unix(int64(m), 0))
 	fmt.Println("客户端产生的随机数：", buf[15:43])
-	fmt.Println("sessionId: ", buf[43:75])
-	fmt.Println("sessionId: ", buf[43:75])
+
+	sessionIdLen := binary.BigEndian.Uint16([]byte{0x00, buf[44]})
+	fmt.Println("sessionId length: ", sessionIdLen)
+	fmt.Println("sessionId: ", buf[45:45+sessionIdLen])
+
+	secirityLen := binary.BigEndian.Uint16([]byte{buf[45], buf[46]})
+	fmt.Println("Cipher Suite length: ", secirityLen)
+	fmt.Println("密文族(加密套件): ", (buf[47 : 47+secirityLen]))
+
+	index := 47 + secirityLen
+	compressionMethodLen := binary.BigEndian.Uint16([]byte{0x00, buf[index]})
+	fmt.Println("压缩方法 lenght: ", compressionMethodLen)
+	fmt.Println("压缩方法：", buf[index+1:index+1+compressionMethodLen])
+
+	index = index + 1 + compressionMethodLen
 	fmt.Println("\n===================================\n")
 }
