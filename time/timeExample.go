@@ -12,15 +12,19 @@ func main() {
 	// //睡眠3秒钟
 	// time.Sleep(time.Second * 3)
 
-	eTest5()
+	// eTest5()
+	heartbeat()
 }
 
-func eTest1() {
-	fmt.Println(time.Now().String())
-	var customMap map[string]string = map[string]string{"tao": "nihao"}
-	fmt.Println(customMap)
-	fmt.Println([]string{"tao"})
+/*
+	得到一个一秒钟的心跳
+*/
+func heartbeat() {
+	for range time.NewTicker(1 * time.Second).C {
+		fmt.Println("haha")
+	}
 }
+
 func eTest2() {
 	fmt.Println("the 1")
 	tc := time.After(time.Second)
@@ -39,7 +43,9 @@ func eTest3() {
 	fmt.Println(t2.Sub(t1).Nanoseconds()) //计算出微毫秒，十亿份之一秒
 }
 
-//
+/*
+	创建一个时间
+*/
 func eTest4() {
 	t := time.Now()
 	fmt.Println(time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.Local))
