@@ -8,6 +8,7 @@ import (
 
 func main() {
 	simple1()
+	simple2()
 }
 
 //创建表格
@@ -32,7 +33,8 @@ func simple2() {
 	if err != nil {
 		fmt.Println("连接数据库失败")
 	}
-	engine.Insert(&User{1, "tao", 30})
+	id, _ := engine.Insert(&User{Name: "tao", Age: 30})
+	fmt.Println(id)
 
 }
 
@@ -53,7 +55,7 @@ func simple3() {
 }
 
 type User struct {
-	Id   int32
+	Id   uint64 `xorm:"pk autoincr 'c_id'" json:"c_id"` //id
 	Name string
 	Age  int32
 }
