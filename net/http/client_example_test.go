@@ -1,23 +1,83 @@
-package main
+package http
 
 import (
-	// "bytes"
+	"encoding/json"
 	"fmt"
-	// "io"
 	"io/ioutil"
 	"net/http"
-	// "reflect"
 	"strings"
+	"testing"
 )
 
-func main() {
-	//demo()
-	fmt.Println("-----------------------------------------------------")
-	ssdp()
-	//demo()
+/*
+	自定义请求head，body，method，参数用body传递
+	获取添加金币记录
+*/
+func TestGetAddCoin(t *testing.T) {
+	url := "/findcoin"
+	method := "POST"
+	params := map[string]interface{}{
+		"Page": 0,
+		"Size": 10,
+	}
+
+	header := http.Header{"RANGE": []string{"0-200"},
+		"User-Agent": []string{"OperatingPlatform"},
+		"Accept":     []string{"text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2"}}
+	client := &http.Client{}
+	//req, err := http.NewRequest("GET", "http://www.baidu.com/", nil)
+	bs, err := json.Marshal(params)
+	req, err := http.NewRequest(method, "http://127.0.0.1:8080"+url, strings.NewReader(string(bs)))
+	if err != nil {
+		fmt.Println("创建request错误")
+		return
+	}
+	req.Header = header
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("请求服务器错误")
+		return
+	}
+	fmt.Println("response:", resp.StatusCode)
+	if resp.StatusCode == 200 {
+		robots, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println("读取body内容错误")
+			return
+		}
+		fmt.Println(string(robots))
+	}
 }
 
-func ssdp() {
+/*
+	模拟网页form表单提交请求
+*/
+func TestPostRequest(t *testing.T) {
+	data := make(url.Values)
+	data["address"] = []string{"127.0.0.1:9981"}
+
+	resp, _ := http.PostForm("http://127.0.0.1:9981/add", data)
+	if resp.StatusCode == 200 {
+	}
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("返回结果：", string(body))
+}
+
+/*
+	普通http请求，没有任何参数
+*/
+func TestOrdinaryClient(t *testing.T) {
+	resp, _ := http.Get("http://127.0.0.1:10010/university/1/major?access_token=haha")
+	if resp.StatusCode == 200 {
+	}
+	body, _ := ioutil.ReadAll(resp.Body)
+	log.Println("返回结果：", string(body))
+}
+
+/*
+	查看网关是否支持upnp协议
+*/
+func TestSsdp(t *testing.T) {
 
 	readMappingBody := `<?xml version="1.0"?>
 	<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
@@ -58,7 +118,10 @@ func ssdp() {
 	}
 }
 
-func demo() {
+/*
+	请求自定义header
+*/
+func TestHeader(t *testing.T) {
 	client := &http.Client{}
 	reqest, _ := http.NewRequest("GET", "http://www.baidu.com", nil)
 

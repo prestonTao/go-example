@@ -30,6 +30,9 @@ func show_substr(s string, l int) string {
 	return ss
 }
 
+/*
+	计算字符串长度，中文占2个长度，英文占1个长度
+*/
 func show_strlen(s string) int {
 	sl := 0
 	rs := []rune(s)
