@@ -22,6 +22,16 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 
 /*
+	获取form中的参数
+*/
+func ParseForm(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	for key, value := range r.Form {
+		fmt.Println(key, value[0])
+	}
+}
+
+/*
 	参数在请求body中传递
 	返回参数用json格式
 	@return   RetCode   0=成功，1=失败
