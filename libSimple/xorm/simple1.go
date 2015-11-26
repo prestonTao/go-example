@@ -11,11 +11,14 @@ func main() {
 	simple2()
 }
 
+var engine *xorm.Engine
+
 //创建表格
 func simple1() {
-	engine, err := xorm.NewEngine("mysql", "root:root@/test?charset=utf8")
+	var err error
+	engine, err = xorm.NewEngine("mysql", "root:root@/test?charset=utf8")
 
-	defer engine.Close()
+	// defer engine.Close()
 	if err != nil {
 		fmt.Println("连接数据库失败")
 	}
@@ -29,7 +32,7 @@ func simple1() {
 //插入数据
 func simple2() {
 	engine, err := xorm.NewEngine("mysql", "root:root@/test?charset=utf8")
-	defer engine.Close()
+	// defer engine.Close()
 	if err != nil {
 		fmt.Println("连接数据库失败")
 	}
@@ -42,7 +45,7 @@ func simple2() {
 //执行一条sql语句，查询数据
 func simple3() {
 	engine, err := xorm.NewEngine("mysql", "root:root@/test?charset=utf8")
-	defer engine.Close()
+	// defer engine.Close()
 	if err != nil {
 		fmt.Println("连接数据库失败")
 	}

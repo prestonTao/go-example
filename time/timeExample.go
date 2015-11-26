@@ -13,7 +13,7 @@ func main() {
 	// time.Sleep(time.Second * 3)
 
 	// eTest5()
-	heartbeat()
+	eTest7()
 }
 
 /*
@@ -25,6 +25,7 @@ func heartbeat() {
 	}
 }
 
+//在一定时间之后做某个事情
 func eTest2() {
 	fmt.Println("the 1")
 	tc := time.After(time.Second)
@@ -59,10 +60,32 @@ func eTest5() {
 	fmt.Println(yesterday)
 }
 
+<<<<<<< HEAD
 func Parse_time() {
 	the_time, err := time.Parse("2006-01-02 15:04:05", "2014-01-08 09:04:41")
 	if err == nil {
 		unix_time := the_time.Unix()
 		fmt.Println(unix_time)
 	}
+=======
+//计算一段时间相隔秒数
+func eTest6() {
+	t := time.Now()
+	time.Sleep(time.Second)
+	interval := time.Now().Sub(t)
+	done := interval > 1
+	fmt.Println("---", done)
+
+}
+
+/*
+	计算当天半夜12点
+*/
+func eTest7() {
+	str := time.Now().Format("2006-01-02 15:04:05")
+	fmt.Println(str[:10])
+
+	newTime, _ := time.Parse("2006-01-02 15:04:05", str[:10]+" 00:00:00")
+	fmt.Println(newTime.Add(time.Hour * 24))
+>>>>>>> 7fba7648b4c90ee121d0e531fc6b19d48cdfec12
 }
