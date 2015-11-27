@@ -13,7 +13,7 @@ func main() {
 	// time.Sleep(time.Second * 3)
 
 	// eTest5()
-	eTest7()
+	eTest9()
 }
 
 /*
@@ -45,7 +45,7 @@ func eTest3() {
 }
 
 /*
-	创建一个时间
+	创建一个整天时间
 */
 func eTest4() {
 	t := time.Now()
@@ -79,4 +79,49 @@ func eTest7() {
 
 	newTime, _ := time.Parse("2006-01-02 15:04:05", str[:10]+" 00:00:00")
 	fmt.Println(newTime.Add(time.Hour * 24))
+}
+
+/*
+	判断一个时间点是否在一个时间段
+*/
+func eTest8() {
+	// t := time.Now()
+	// fmt.Println(time.Date(2015, 11, 27, 13, 5, 26, 0, time.Local))
+	point := time.Date(2015, 11, 27, 13, 5, 26, 0, time.Local)
+	fmt.Println("需要判断的时间点：", point)
+
+	start := time.Date(2015, 11, 27, 0, 0, 0, 0, time.Local)
+	fmt.Println("开始时间点：", start)
+
+	end := time.Date(2015, 11, 28, 0, 0, 0, 0, time.Local)
+	fmt.Println("结束时间点：", end)
+
+	if point.Unix() >= start.Unix() && point.Unix() < end.Unix() {
+		fmt.Println("在这个时间段")
+	} else {
+		fmt.Println("不在这个时间段")
+	}
+}
+
+/*
+	半夜12点执行一次
+*/
+func eTest9() {
+	Loop()
+}
+
+/*
+	每天半夜12点清空所有验证码
+*/
+func Loop() {
+	now := time.Now()
+	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.Local)
+	tomorrow := today.Add(time.Hour * 24)
+	disparity := tomorrow.Sub(now)
+
+	time.Sleep(disparity)
+	//do somethin
+	// codeMap = make(map[string][]CodeOne, 0)
+	go Loop()
+
 }
