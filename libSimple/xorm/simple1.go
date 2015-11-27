@@ -26,7 +26,7 @@ func simple1() {
 	engine.ShowSQL = true
 	//设置最大连接数为5
 	engine.SetMaxOpenConns(5)
-	engine.CreateTables(&User{}, &Role{})
+	engine.CreateTables(&User{}, &Role{}, &Visiter{})
 }
 
 //插入数据
@@ -37,6 +37,7 @@ func simple2() {
 		fmt.Println("连接数据库失败")
 	}
 	id, _ := engine.Insert(&User{Name: "tao", Age: 30})
+	id, _ = engine.Insert(&Visiter{LoanNumber: "123", LoanType: "656", Phone: "12345679"})
 	fmt.Println(id)
 
 }
@@ -66,4 +67,14 @@ type User struct {
 type Role struct {
 	User     `xorm:"extends"` //创建的表中包含User中的字段
 	RoleName string
+}
+
+/*
+	保存来访者电话号码
+*/
+type Visiter struct {
+	Id         int64
+	LoanNumber string `xorm:"'loan_number'"` //贷款金额
+	LoanType   string `xorm:"'loan_type'"`   //贷款类型
+	Phone      string `xorm:"'phone'"`       //手机号码
 }

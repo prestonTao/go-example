@@ -78,7 +78,6 @@ func TestOrdinaryClient(t *testing.T) {
 	查看网关是否支持upnp协议
 */
 func TestSsdp(t *testing.T) {
-
 	readMappingBody := `<?xml version="1.0"?>
 	<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
 	<SOAP-ENV:Body>
@@ -107,12 +106,15 @@ func TestSsdp(t *testing.T) {
 	reqest.Header.Set("Connection", "Close")
 	reqest.Header.Set("Content-Length", string(len([]byte(readMappingBody))))
 
-	response, _ := client.Do(reqest)
-
-	body, _ := ioutil.ReadAll(response.Body)
+	response, err := client.Do(reqest)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	//bodystr := string(body)
 	fmt.Println(response.StatusCode)
 	if response.StatusCode == 200 {
+		body, _ := ioutil.ReadAll(response.Body)
 		fmt.Println(response.Header)
 		fmt.Println(string(body))
 	}
