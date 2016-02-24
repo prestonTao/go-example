@@ -11,11 +11,11 @@ import (
 )
 
 func main() {
-	udpaddr, err := net.ResolveUDPAddr("udp", "255.255.255.255:1314")
+	udpaddr, err := net.ResolveUDPAddr("udp", "255.255.255.255:9982")
 	if err != nil {
 		log.Panic(err)
 	}
-	addr, err := net.ResolveUDPAddr("udp", "192.168.1.128:1314")
+	addr, err := net.ResolveUDPAddr("udp", "192.168.1.128:9981")
 	if err != nil {
 		log.Panic(err)
 	}
@@ -25,7 +25,7 @@ func main() {
 	}
 	defer conn.Close()
 	read := bufio.NewReader(os.Stdin)
-	fmt.Print("自己起个名字吧：")
+	fmt.Print("给自己起个名字吧：")
 	b, _, err := read.ReadLine()
 	if err != nil {
 		log.Panic(err)

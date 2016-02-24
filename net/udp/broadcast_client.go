@@ -15,7 +15,7 @@ func main() {
 	// if err != nil {
 	// 	log.Panic(err)
 	// }
-	addr, err := net.ResolveUDPAddr("udp", "192.168.1.106:1314")
+	addr, err := net.ResolveUDPAddr("udp", "192.168.1.128:9982")
 	if err != nil {
 		log.Panic(err)
 	}
