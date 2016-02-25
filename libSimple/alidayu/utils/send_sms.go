@@ -74,12 +74,17 @@ func CheckSMSResult(result string) int {
 	}
 	if v, ok := rep["alibaba_aliqin_fc_sms_num_send_response"]; ok {
 		codeMap := v.(map[string]interface{})
-		codeStr := codeMap["result"].(map[string]interface{})["err_code"].(string)
-		code, err := strconv.Atoi(codeStr)
-		if err != nil {
-			return -1
+		ok = codeMap["result"].(map[string]interface{})["success"].(bool)
+		if ok {
+			return 0
+		} else {
+			codeStr := codeMap["result"].(map[string]interface{})["err_code"].(string)
+			code, err := strconv.Atoi(codeStr)
+			if err != nil {
+				return -1
+			}
+			return code
 		}
-		return code
 	}
 	return -1
 }
