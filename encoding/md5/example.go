@@ -10,7 +10,8 @@ import (
 
 func main() {
 	stringMD5()
-	fileMD5()
+	// fileMD5()
+	// parseMD5()
 }
 
 /*
@@ -31,7 +32,18 @@ func fileMD5() {
 */
 func stringMD5() {
 	h := md5.New()
-	h.Write([]byte("123456"))                          // 需要加密的字符串为 123456
+	h.Write([]byte("123456")) // 需要加密的字符串为 123456
+	fmt.Println(h.Sum(nil))
 	fmt.Printf("%s\n", hex.EncodeToString(h.Sum(nil))) // 输出加密结果
+
+	bs, _ := hex.DecodeString(hex.EncodeToString(h.Sum(nil)))
+	fmt.Println(bs)
+
+}
+
+//d751713988987e9331980363e24189ce
+func parseMD5() {
+	strMD5 := "d751713988987e9331980363e24189ce"
+	fmt.Println([]byte(strMD5))
 
 }
