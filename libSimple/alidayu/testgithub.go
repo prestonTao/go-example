@@ -2,14 +2,35 @@ package main
 
 import (
 	"fmt"
+	"net"
+	"time"
+
 	"github.com/prestonTao/go-example/libSimple/alidayu/utils"
 )
 
 func main() {
+	fmt.Println("start")
+	done := false
+	for !done {
+		conn, err := net.Dial("tcp4", "120.76.188.148:8090")
+		if err != nil {
+			Start()
+			done = true
+			break
+		}
+		conn.Close()
+		time.Sleep(time.Minute * 1)
+	}
+	fmt.Println("end")
+}
+
+func Start() {
 	utils.AppKey = "23312050"
 	utils.AppSecret = "db90086690a148669f7602496d24e956"
 
-	success, resp := utils.SendSMS("13408066190,13551322482", "身份验证", "SMS_5038149", `{"code":"1234","product":"阿里大鱼"}`)
+	//	success, resp := utils.SendSMS("13408066190,13551322482", "身份验证", "SMS_5038149", `{"code":"1234","product":"阿里大鱼"}`)
+	//	success, resp := utils.SendSMS("13408066190", "身份验证", "SMS_13236641", `{"code":"1234"}`)
+	success, resp := utils.SendSMS("13408066190", "身份验证", "SMS_13272034", `{}`)
 	if !success {
 		fmt.Println("接口调用失败")
 		return
