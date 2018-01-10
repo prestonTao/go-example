@@ -8,15 +8,15 @@ import (
 
 func main() {
 
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for i := 0; i < 10; i++ {
-		fmt.Println(r.Intn(100))
-	}
+	// r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	// for i := 0; i < 10; i++ {
+	// 	fmt.Println(r.Intn(100))
+	// }
 
 	// x := rand.NewSource(9)
 
 	// fmt.Println(rand.NewSource(9))
-	randn()
+	example2()
 }
 
 //从范围[0-65535)随机选择一个数字，包括0，但不包括65535
@@ -44,5 +44,15 @@ func example() {
 	fmt.Println()
 	for i := 0; i < 10; i++ {
 		fmt.Printf("%2.2f / ", 100*rand.Float32())
+	}
+}
+
+/*
+	产生[0-5)的数字随机排序
+*/
+func example2() {
+	for i := 0; i < 100; i++ {
+		result := rand.Perm(5)
+		fmt.Println(result)
 	}
 }

@@ -3,6 +3,8 @@ package main
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"encoding/hex"
+	"fmt"
 	"math/big"
 	"math/rand"
 	"time"
@@ -24,6 +26,9 @@ var (
 
 func main() {
 
+}
+
+func encode() []byte {
 	//	srcByte := []byte("nihao")
 	iv := Rand16()
 	c, err := aes.NewCipher(key)
@@ -34,7 +39,8 @@ func main() {
 	data := make([]byte, len(commonInput))
 	copy(data, commonInput)
 	encrypter.CryptBlocks(data, data)
-
+	fmt.Println(hex.EncodeToString(data))
+	return data
 }
 
 func Rand16() []byte {

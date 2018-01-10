@@ -12,7 +12,7 @@ func main() {
 }
 
 func Client() {
-	conn, _ := net.Dial("tcp", "192.168.1.210:8090")
+	conn, _ := net.Dial("tcp", "192.168.1.210:9981")
 	// buf := make([]byte, 1024)
 	// n, _ := conn.Read(buf)
 	// log.Println(buf[:n])
