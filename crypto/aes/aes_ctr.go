@@ -4,6 +4,9 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"fmt"
+	"math/big"
+	"math/rand"
+	"time"
 )
 
 var key = []byte{
@@ -26,35 +29,21 @@ var ac = []byte{
 }
 
 func main() {
+	//	a := "hello"
+	//	src = []byte(a)
+	//	lenhth :=
 	fmt.Println("key ", key)
 	fmt.Println("src ", src)
 
-	aesEnc := AesEncrypt{}
-	arrEncrypt, err := aesEnc.Encrypt(src)
-	if err != nil {
-		//		fmt.Println(arrEncrypt)
-		return
-	}
+	arrEncrypt, _ := Encrypt(key, src)
 	fmt.Println("ac ", ac)
 	fmt.Println("加密后 ", arrEncrypt)
-	strMsg, err := aesEnc.Decrypt(arrEncrypt)
-	if err != nil {
-		//		fmt.Println(arrEncrypt)
-		return
-	}
+	strMsg, _ := Decrypt(key, arrEncrypt)
 	fmt.Println("src ", strMsg)
 }
 
-type AesEncrypt struct {
-}
-
-func (this *AesEncrypt) getKey() []byte {
-	return key
-}
-
 //加密字符串
-func (this *AesEncrypt) Encrypt(srcByte []byte) ([]byte, error) {
-	key := this.getKey()
+func Encrypt(key, srcByte []byte) ([]byte, error) {
 	//	fmt.Println(aes.BlockSize)
 	//	var iv = key[:aes.BlockSize]
 	encrypted := make([]byte, len(srcByte))
@@ -62,21 +51,17 @@ func (this *AesEncrypt) Encrypt(srcByte []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	aesEncrypter := cipher.NewCTR(aesBlockEncrypter, key)
+	aesEncrypter.XORKeyStream(encrypted, srcByte)
 	//	aesEncrypter := cipher.NewCFBEncrypter(aesBlockEncrypter, iv)
 	//	aesEncrypter.XORKeyStream(encrypted, srcByte)
-	aesBlockEncrypter.Encrypt(encrypted, srcByte)
-	return encrypted, nil
+	//	aesBlockEncrypter.Encrypt(encrypted, srcByte)
+	return encrypted[:], nil
 }
 
 //解密字符串
-func (this *AesEncrypt) Decrypt(src []byte) (strDesc []byte, err error) {
-	defer func() {
-		//错误处理
-		if e := recover(); e != nil {
-			err = e.(error)
-		}
-	}()
-	key := this.getKey()
+func Decrypt(key, src []byte) (strDesc []byte, err error) {
+
 	//	var iv = key[:aes.BlockSize]
 	decrypted := make([]byte, len(src))
 	var aesBlockDecrypter cipher.Block
@@ -88,4 +73,15 @@ func (this *AesEncrypt) Decrypt(src []byte) (strDesc []byte, err error) {
 	//	aesDecrypter.XORKeyStream(decrypted, src)
 	aesBlockDecrypter.Decrypt(decrypted, src)
 	return decrypted, nil
+}
+
+/*
+	随机获取一个128位的key
+*/
+func RandKey128() []byte {
+	min := rand.New(rand.NewSource(99))
+	min.Seed(int64(time.Now().Nanosecond()))
+	maxId := new(big.Int).Lsh(big.NewInt(1), 128)
+	randInt := new(big.Int).Rand(min, maxId)
+	return randInt.Bytes()
 }
