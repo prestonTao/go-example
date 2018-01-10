@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/pierrre/imageserver"
-	"github.com/pierrre/imageserver/processor/graphicsmagick"
+	"github.com/pierrre/imageserver/graphicsmagick"
 	"io/ioutil"
 	"os"
 )
@@ -39,4 +39,18 @@ func simple1() {
 	}
 
 	fmt.Println("ok")
+}
+
+/*
+	给图片瘦身
+	图片不会改变尺寸，但是会将其图片质量下降到85%（肉眼不可辩）
+	转换后的图片大小大概最起码会减少三分之二左右。
+	GrahpicsMagick：
+	find . -iname “*.jpg” -exec gm convert -strip +profile “*” -quality 85 {} {} \;
+	​
+	ImageMagick：
+	find . -iname “*.jpg” -exec convert -strip +profile “*” -quality 85 {} {} \;
+*/
+func slimming() {
+
 }
