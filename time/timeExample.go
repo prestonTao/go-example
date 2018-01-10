@@ -13,7 +13,21 @@ func main() {
 	// time.Sleep(time.Second * 3)
 
 	// eTest5()
-	eTest9()
+
+	// time.Sleep(time.Second * time.Duration(2))
+	// eTest9()
+
+	start := time.Now()
+	str := start.Format("2006-01-02")
+	newTime, _ := time.Parse("2006-01-02", str)
+	end := newTime.Unix() + int64(60*60*24)
+
+	str = newTime.Format("2006-01-02 15:04:05")
+	fmt.Println(str, newTime.Unix(), start.Unix(), end)
+	//		fmt.Println(newTime.)
+	fmt.Println((end - time.Now().Unix()) / 60 / 60)
+
+	// time.Sleep(time.Duration((end - time.Now().Unix())) * time.Second)
 }
 
 /*
@@ -60,14 +74,14 @@ func eTest5() {
 	fmt.Println(yesterday)
 }
 
-<<<<<<< HEAD
 func Parse_time() {
 	the_time, err := time.Parse("2006-01-02 15:04:05", "2014-01-08 09:04:41")
 	if err == nil {
 		unix_time := the_time.Unix()
 		fmt.Println(unix_time)
 	}
-=======
+}
+
 //计算一段时间相隔秒数
 func eTest6() {
 	t := time.Now()
@@ -87,7 +101,7 @@ func eTest7() {
 
 	newTime, _ := time.Parse("2006-01-02 15:04:05", str[:10]+" 00:00:00")
 	fmt.Println(newTime.Add(time.Hour * 24))
->>>>>>> 7fba7648b4c90ee121d0e531fc6b19d48cdfec12
+
 }
 
 /*
