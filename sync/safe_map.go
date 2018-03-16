@@ -6,6 +6,10 @@ import (
 )
 
 func main() {
+	example2()
+}
+
+func example() {
 	one := mem[1]
 	delete(mem, 1)
 	one = one + 1
@@ -29,4 +33,21 @@ func Find(key int) int {
 	one := mem[key]
 	lock.RUnlock()
 	return one
+}
+
+//--------------------------------
+func example2() {
+	m := new(sync.Map)
+	m.Store("tao", "nihao")
+	m.Store("hong", "nihao")
+	m.Store("fei", "nihao")
+
+	m.Range(func(key, value interface{}) bool {
+		fmt.Println(key, value)
+		return true
+
+	})
+
+	fmt.Println(41%10)
+
 }
