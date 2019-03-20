@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/syndtr/goleveldb/leveldb"
@@ -16,19 +17,20 @@ var db *leveldb.DB
 
 func main() {
 	inition()
-	//	example()
+	example()
 	//	insert()
 	//	find()
 	//	insertImg()
+	//	removeImg()
 
-	findImg("d7dda8c95b8f1a614f0aa6871fe4724b",
-		"3329c9528aa5e1a46f44f420a57a7829",
-		"aa9713ce9fb9656d7793b26a844950c5",
-		"572a74957978db25a55903550eb3941b",
-		"9d750694afb9f70202ba49b0aa9c56ab",
-		"69e4e3fa1e2474fe2ecfb8341caad932",
-		"1bbf3cbe992e4514ca2699e539dd1d37",
-		"52cefa98bea1a445edf1e03b9d8a487f")
+	//	findImg("d7dda8c95b8f1a614f0aa6871fe4724b",
+	//		"3329c9528aa5e1a46f44f420a57a7829",
+	//		"aa9713ce9fb9656d7793b26a844950c5",
+	//		"572a74957978db25a55903550eb3941b",
+	//		"9d750694afb9f70202ba49b0aa9c56ab",
+	//		"69e4e3fa1e2474fe2ecfb8341caad932",
+	//		"1bbf3cbe992e4514ca2699e539dd1d37",
+	//		"52cefa98bea1a445edf1e03b9d8a487f")
 
 	//	insertLittle()
 
@@ -55,6 +57,17 @@ func example() {
 		fmt.Println(err)
 	}
 	fmt.Println("value", string(value))
+
+	//查找一个不存在的会怎样
+	value, err = db.Get([]byte("taohong"), nil)
+	if err != nil {
+		if err == leveldb.ErrNotFound {
+			fmt.Println("不存在")
+		} else {
+			fmt.Println("--", err)
+		}
+	}
+	fmt.Println("value", value, string(value))
 }
 
 func insert() {
@@ -83,13 +96,15 @@ func find() {
 	fmt.Println(err)
 }
 
+var names = new(sync.Map)
+
 func insertImg() {
-	bs, err := ioutil.ReadFile("C:/Users/preston/Desktop/image/图片/7af40ad162d9f2d3de7180f7a5ec8a136327cc42.jpg")
+	bs, err := ioutil.ReadFile("D:/图片/7af40ad162d9f2d3de7180f7a5ec8a136327cc42.jpg")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	for i := 0; i < 1024*3; i++ {
+	for i := 0; i < 50; i++ {
 		h := md5.New()
 		h.Write([]byte(time.Now().String() + strconv.Itoa(i)))
 		name := h.Sum(nil)
@@ -102,7 +117,22 @@ func insertImg() {
 			fmt.Println("111", err)
 		}
 		fmt.Println(i, hex.EncodeToString(name), time.Now().Sub(t1)) //计算出微毫秒，十亿份之一秒
+		names.Store(hex.EncodeToString(name), hex.EncodeToString(name))
 	}
+}
+
+func removeImg() {
+	names.Range(func(key, value interface{}) bool {
+		k := key.(string)
+		one, err := hex.DecodeString(k)
+		if err != nil {
+			fmt.Println(err)
+			return false
+		}
+		db.Delete(one, nil)
+		fmt.Println("remove", k)
+		return true
+	})
 }
 
 func findImg(names ...string) {

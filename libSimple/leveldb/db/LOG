@@ -1,0 +1,36 @@
+=============== Jun 20, 2018 (CST) ===============
+14:24:15.676449 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:24:15.730452 db@open opening
+14:24:15.731452 version@stat F·[] S·0B[] Sc·[]
+14:24:15.756454 db@janitor F·2 G·0
+14:24:15.756454 db@open done T·26.0015ms
+=============== Jun 20, 2018 (CST) ===============
+14:24:44.998126 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:24:45.019128 version@stat F·[] S·0B[] Sc·[]
+14:24:45.019128 db@open opening
+14:24:45.019128 journal@recovery F·1
+14:24:45.019128 journal@recovery recovering @1
+14:24:45.160136 memdb@flush created L0@2 N·1 S·119B "tao,v1":"tao,v1"
+14:24:45.163136 version@stat F·[1] S·119B[119B] Sc·[0.25]
+14:24:45.200138 db@janitor F·3 G·0
+14:24:45.200138 db@open done T·181.0104ms
+=============== Jun 20, 2018 (CST) ===============
+14:27:53.506908 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:27:53.527910 version@stat F·[1] S·119B[119B] Sc·[0.25]
+14:27:53.527910 db@open opening
+14:27:53.527910 journal@recovery F·1
+14:27:53.528910 journal@recovery recovering @3
+14:27:53.603914 memdb@flush created L0@5 N·1 S·119B "tao,v3":"tao,v3"
+14:27:53.604914 version@stat F·[2] S·238B[238B] Sc·[0.50]
+14:27:53.636916 db@janitor F·4 G·0
+14:27:53.636916 db@open done T·109.0062ms
+=============== Jun 20, 2018 (CST) ===============
+14:29:02.666864 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:29:02.687865 version@stat F·[2] S·238B[238B] Sc·[0.50]
+14:29:02.687865 db@open opening
+14:29:02.687865 journal@recovery F·1
+14:29:02.687865 journal@recovery recovering @6
+14:29:02.812873 memdb@flush created L0@8 N·1 S·119B "tao,v5":"tao,v5"
+14:29:02.813873 version@stat F·[3] S·357B[357B] Sc·[0.75]
+14:29:02.862875 db@janitor F·5 G·0
+14:29:02.862875 db@open done T·175.01ms

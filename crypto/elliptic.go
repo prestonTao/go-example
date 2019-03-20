@@ -38,6 +38,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"math/big"
 	"os"
 	"strings"
@@ -64,11 +65,84 @@ func main() {
 
 	//	fmt.Println(prk, puk)
 
+	//生成私钥和公钥
 	err := BuildKey()
 	fmt.Println(err)
 
+	//加载本地的私钥
+	prk, err = LoadPrk()
+	fmt.Println(err)
+
+	//检查加载的私钥是否正确
+	publicKey := &prk.PublicKey
+	ecder, err := x509.MarshalPKIXPublicKey(publicKey)
+	if err != nil {
+		fmt.Println("111", err)
+		return
+	}
+	//	keypem, err = os.OpenFile("ec-puk.pem", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+	//	if err != nil {
+	//		return err
+	//	}
+	keypem := bytes.NewBuffer(nil)
+	err = pem.Encode(keypem, &pem.Block{Type: "EC PUBLIC KEY", Bytes: ecder})
+	if err != nil {
+		return
+	}
+	fmt.Println(string(keypem.Bytes()))
+
+	//测试加载本地公钥文件
+	pukey, err := LoadPuk()
+	ecder, err = x509.MarshalPKIXPublicKey(pukey)
+	if err != nil {
+		fmt.Println("111", err)
+		return
+	}
+	keypem = bytes.NewBuffer(nil)
+	err = pem.Encode(keypem, &pem.Block{Type: "EC PUBLIC KEY", Bytes: ecder})
+	if err != nil {
+		return
+	}
+	fmt.Println(string(keypem.Bytes()))
+
+	//prk = prk
+	puk = prk.PublicKey
+
+	//对明文签名
+	text := `hao a you a taopopoohao a you a taopopoohao a you a taopopoohao a 
+	you a taopopoohao a you a taopopoohao a you a taopopoohao a you a taopopoohao
+	you a taopopoohao a you a taopopoohao a you a taopopoohao a you a taopopoohao
+	you a taopopoohao a you a taopopoohao a you a taopopoohao a you a taopopoohao
+	you a taopopoohao a you a taopopoohao a you a taopopoohao a you a taopopoohao
+	 a you a taopopoohao a you a taopopoohao a you 
+	a taopopoohao a you a taopopoohao a you a taopopoo`
+	signText, err := Sign(text)
+	if err != nil {
+		fmt.Println("签名失败", err)
+		return
+	}
+	fmt.Println(len([]byte(signText)), signText)
+
+	//用于测试使用其他公钥是否可以验证签名
+	//	err = BuildKey()
+	//	fmt.Println(err)
+	//	prk, err = LoadPrk()
+	//	fmt.Println(err)
+	//	puk = prk.PublicKey
+
+	//验证签名
+	ok, err := Verify(text, signText)
+	if err != nil {
+		fmt.Println("验证签名失败", err)
+		return
+	}
+	fmt.Println(ok)
+
 }
 
+/*
+	生成私钥和公钥，并保存到本地
+*/
 func BuildKey() error {
 
 	priv, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
@@ -124,6 +198,43 @@ func BuildKey() error {
 	//	}
 }
 
+/*
+	加载本地私钥
+*/
+func LoadPrk() (*ecdsa.PrivateKey, error) {
+	bs, err := ioutil.ReadFile("ec-prk.pem")
+	if err != nil {
+		return nil, err
+	}
+	b, rest := pem.Decode(bs)
+	fmt.Println(b, rest)
+
+	prk, err := x509.ParseECPrivateKey(b.Bytes)
+	if err != nil {
+		return nil, err
+	}
+	return prk, nil
+}
+
+/*
+	加载本地公钥
+*/
+func LoadPuk() (*ecdsa.PublicKey, error) {
+	bs, err := ioutil.ReadFile("ec-puk.pem")
+	if err != nil {
+		return nil, err
+	}
+	b, rest := pem.Decode(bs)
+	fmt.Println(b, rest)
+
+	pukItr, err := x509.ParsePKIXPublicKey(b.Bytes)
+	if err != nil {
+		return nil, err
+	}
+	puk := pukItr.(*ecdsa.PublicKey)
+	return puk, nil
+}
+
 func init() {
 	var err error
 	cfg, err = config.NewConfig("ini", "conf/app.conf")
@@ -170,7 +281,8 @@ func init() {
 
 //Encrypt 对Text进行加密，返回加密后的字节流
 func Sign(text string) (string, error) {
-	r, s, err := ecdsa.Sign(strings.NewReader(randSign), prk, []byte(text))
+	//	r, s, err := ecdsa.Sign(strings.NewReader(randSign), prk, []byte(text))
+	r, s, err := ecdsa.Sign(rand.Reader, prk, []byte(text))
 	if err != nil {
 		return "", err
 	}

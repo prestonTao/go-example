@@ -76,5 +76,34 @@ func tt() {
 	enc.Encode(d)
 }
 func main() {
-	tt()
+	//	tt()
+	example()
+}
+
+func example() {
+	b := Block{
+		Txid: "wmf9i",
+		Vin:  []interface{}{Vin{Sign: "123"}},
+	}
+
+	bs, err := json.Marshal(b)
+	fmt.Println(string(bs), err)
+
+	b = Block{Txid: "", Vin: make([]interface{}, 0)}
+	json.Unmarshal(bs, &b)
+	fmt.Println(b)
+
+	bs, err = json.Marshal(b.Vin)
+	vins := make([]Vin, 0)
+	json.Unmarshal(bs, &vins)
+	fmt.Println(vins)
+}
+
+type Block struct {
+	Txid string
+	Vin  []interface{}
+}
+
+type Vin struct {
+	Sign string
 }
