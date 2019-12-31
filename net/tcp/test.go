@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	// "log"
 	"net"
 	// "strconv"
@@ -12,7 +13,8 @@ func main() {
 }
 
 func Client() {
-	conn, _ := net.Dial("tcp", "192.168.1.210:9981")
+	conn, err := net.Dial("tcp", "120.79.179.22:19981")
+	fmt.Println(err)
 	// buf := make([]byte, 1024)
 	// n, _ := conn.Read(buf)
 	// log.Println(buf[:n])

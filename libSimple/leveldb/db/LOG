@@ -34,3 +34,47 @@
 14:29:02.813873 version@stat F·[3] S·357B[357B] Sc·[0.75]
 14:29:02.862875 db@janitor F·5 G·0
 14:29:02.862875 db@open done T·175.01ms
+=============== Nov 7, 2019 (CST) ===============
+10:59:25.440096 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+10:59:25.490106 version@stat F·[3] S·357B[357B] Sc·[0.75]
+10:59:25.490106 db@open opening
+10:59:25.490106 journal@recovery F·1
+10:59:25.491069 journal@recovery recovering @9
+10:59:25.506071 memdb@flush created L0@11 N·1 S·119B "tao,v7":"tao,v7"
+10:59:25.506071 version@stat F·[4] S·476B[476B] Sc·[1.00]
+10:59:25.557071 db@janitor F·6 G·0
+10:59:25.557071 db@open done T·66.9642ms
+10:59:25.557071 table@compaction L0·4 -> L1·0 S·476B Q·8
+=============== Nov 7, 2019 (CST) ===============
+11:00:52.765105 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:00:52.783071 version@stat F·[4] S·476B[476B] Sc·[1.00]
+11:00:52.783071 db@open opening
+11:00:52.783071 journal@recovery F·1
+11:00:52.784069 journal@recovery recovering @12
+11:00:52.784069 version@stat F·[4] S·476B[476B] Sc·[1.00]
+11:00:52.843074 db@janitor F·7 G·1
+11:00:52.843074 db@janitor removing table-14
+11:00:52.843074 db@open done T·60.003ms
+11:00:52.844070 table@compaction L0·4 -> L1·0 S·476B Q·8
+=============== Nov 7, 2019 (CST) ===============
+11:01:11.649095 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:01:11.667102 version@stat F·[4] S·476B[476B] Sc·[1.00]
+11:01:11.667102 db@open opening
+11:01:11.667102 journal@recovery F·1
+11:01:11.668074 journal@recovery recovering @14
+11:01:11.669071 version@stat F·[4] S·476B[476B] Sc·[1.00]
+11:01:11.733073 db@janitor F·7 G·1
+11:01:11.733073 db@janitor removing table-16
+11:01:11.733073 db@open done T·65.9702ms
+11:01:11.734070 table@compaction L0·4 -> L1·0 S·476B Q·8
+=============== Nov 7, 2019 (CST) ===============
+11:04:27.196071 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:04:27.218101 version@stat F·[4] S·476B[476B] Sc·[1.00]
+11:04:27.218101 db@open opening
+11:04:27.218101 journal@recovery F·1
+11:04:27.219070 journal@recovery recovering @16
+11:04:27.220069 version@stat F·[4] S·476B[476B] Sc·[1.00]
+11:04:27.280075 db@janitor F·7 G·1
+11:04:27.280075 db@janitor removing table-18
+11:04:27.280075 db@open done T·61.974ms
+11:04:27.281071 table@compaction L0·4 -> L1·0 S·476B Q·8
