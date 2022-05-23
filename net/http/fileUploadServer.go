@@ -101,7 +101,8 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "image")
+	// w.Header().Set("Content-Type", "image")
+	w.Header().Set("content-disposition", "attachement;filename="+imageId)
 	http.ServeFile(w, r, imagePath)
 
 }
