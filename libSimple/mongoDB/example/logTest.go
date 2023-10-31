@@ -1,8 +1,8 @@
 package main
 
 import (
-	"../mgo"
-	"../mgo/bson"
+	// "../mgo"
+	// "../mgo/bson"
 	"encoding/json"
 	"fmt"
 	"time"

@@ -1,8 +1,6 @@
 package main
 
-import (
-	"./queue"
-)
+// "./queue"
 
 func main() {
 	msgQueue := new(queue.MsgQueue)

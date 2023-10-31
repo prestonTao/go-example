@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "../../lib/mysql-master"
+	// _ "../../lib/mysql-master"
 	"database/sql"
 	"fmt"
 	"log"

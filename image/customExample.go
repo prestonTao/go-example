@@ -1,7 +1,7 @@
 package main
 
 import (
-	"code.google.com/p/graphics-go/graphics"
+	// "code.google.com/p/graphics-go/graphics"
 	"fmt"
 	"image"
 	"image/color"

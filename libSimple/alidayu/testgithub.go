@@ -1,11 +1,10 @@
 package main
 
 import (
+	"example/libSimple/alidayu/utils"
 	"fmt"
 	"net"
 	"time"
-
-	"github.com/prestonTao/go-example/libSimple/alidayu/utils"
 )
 
 func main() {
