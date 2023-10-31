@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 	"syscall"
+	"unsafe"
 )
 
 func main() {
-	example2()
+	example3()
 }
 
 func example1() {
@@ -31,4 +32,38 @@ func custem() {
 
 	proc, err := dll.FindProc("PrintBye")
 	fmt.Println(proc, err)
+}
+
+func example3() {
+	dll, err := syscall.LoadDLL("exportgo.dll")
+	if err != nil {
+		fmt.Println("error:", err.Error())
+		return
+	}
+	fmt.Println(dll, err)
+
+	proc, err := dll.FindProc("StartUP")
+	if err != nil {
+		fmt.Println("error:", err.Error())
+		return
+	}
+	fmt.Println(proc, err)
+
+	params := "123456789"
+
+	_, _, err = proc.Call(StrPtr(params))
+	if err != nil {
+		fmt.Println("error:", err.Error())
+		return
+	}
+
+}
+
+func IntPtr(n int) uintptr {
+	return uintptr(n)
+}
+
+func StrPtr(s string) uintptr {
+	// return uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(s)))
+	return uintptr(unsafe.Pointer(syscall.StringBytePtr(s)))
 }
